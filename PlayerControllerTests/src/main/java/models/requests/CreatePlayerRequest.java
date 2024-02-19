@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import models.responses.CreatePlayerResponse;
-
-import java.util.Objects;
 import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;

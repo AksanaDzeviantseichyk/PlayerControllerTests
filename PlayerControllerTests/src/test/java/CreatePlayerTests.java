@@ -29,7 +29,7 @@ public class CreatePlayerTests {
     }
 
     @Test(dataProvider = "Editor")
-    public void tc01_1_Create_SupervisorOrAdminCreatesUserPlayerWithValidData_StatusCodeIs200(String editor){
+    public void tc01_1_Create_SupervisorOrAdminCreatesPlayerWithValidData_StatusCodeIs200(String editor){
 
         //Precondition
         CreatePlayerRequest expectedPlayer = builder().build();
@@ -45,7 +45,7 @@ public class CreatePlayerTests {
     }
 
     @Test(dataProvider =  "InvalidPassword")
-    public void tc01_2_Create_SupervisorCreatesUserPlayerWithInvalidPassword_StatusCodeIs400(String invalidPassword){
+    public void tc01_2_Create_SupervisorCreatesPlayerWithInvalidPassword_StatusCodeIs400(String invalidPassword){
 
         //Precondition
         CreatePlayerRequest expectedPlayer = builder().password(invalidPassword).build();
