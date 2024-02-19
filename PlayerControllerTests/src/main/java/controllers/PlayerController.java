@@ -3,6 +3,7 @@ package controllers;
 import io.restassured.response.Response;
 import models.requests.CreatePlayerRequest;
 import models.requests.PlayerIdRequest;
+import models.requests.UpdatePlayerRequest;
 
 import static io.restassured.RestAssured.given;
 
@@ -56,5 +57,19 @@ public class PlayerController {
                     .extract()
                     .response();
     }
-
+    public Response UpdatePlayer (String editor, int id, UpdatePlayerRequest updatePlayerFields)
+    {
+        String endpoint = "/player/update/{editor}/{id}";
+        return given()
+                    .baseUri(baseUrl)
+                    .contentType("application/json")
+                    .pathParam("editor", editor)
+                    .pathParam("id", id)
+                    .body(updatePlayerFields)
+                .when()
+                    .patch(endpoint)
+                .then()
+                    .extract()
+                    .response();
+    }
 }
