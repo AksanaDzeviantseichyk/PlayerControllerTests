@@ -1,6 +1,10 @@
 package models.responses;
 
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class CreatePlayerResponse {
     private int age;
@@ -10,4 +14,5 @@ public class CreatePlayerResponse {
     private String password;
     private String role;
     private String screenName;
+
 }

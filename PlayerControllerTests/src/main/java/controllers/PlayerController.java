@@ -43,7 +43,6 @@ public class PlayerController {
                     .extract()
                     .response();
     }
-
     public Response GetPlayerInfoById (PlayerIdRequest getPlayerByIdRequest)
     {
         String endpoint = "/player/get";
