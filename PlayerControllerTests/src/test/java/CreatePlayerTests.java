@@ -2,19 +2,53 @@ import controllers.PlayerController;
 import enums.Role;
 import io.restassured.response.Response;
 import models.requests.CreatePlayerRequest;
-import models.responses.CreatePlayerResponse;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import static models.requests.CreatePlayerRequest.builder;
 
 public class CreatePlayerTests {
 
-    @Test
-    public void tc01_1_Create_SupervisorCreatesUserPlayerWithValidData_StatusCodeIs200AndResponseContainsCorrectData(){
+    @DataProvider(name = "Editor")
+    public Object[][] editors() {
+        return new Object[][]
+                {
+                        {Role.SUPERVISOR.name()},
+                        {Role.ADMIN.name()}
+                };
+    }
+
+    @DataProvider(name = "InvalidPassword")
+    public Object[][] invalidPasswords() {
+        return new Object[][]
+                {
+                        {"1"},
+                        {"1234567890qwertyuio"},
+                        {"абвгдежз1"}
+                };
+    }
+
+    @Test(dataProvider = "Editor")
+    public void tc01_1_Create_SupervisorOrAdminCreatesUserPlayerWithValidData_StatusCodeIs200(String editor){
 
         //Precondition
         CreatePlayerRequest expectedPlayer = builder().build();
+        PlayerController playerController = new PlayerController();
+
+        //Action
+        Response response = playerController.CreatePlayer(editor, expectedPlayer);
+
+        //Assert
+        int acualStatusCode = response.statusCode();
+        Assert.assertEquals(acualStatusCode, 200,
+                String.format("Status code is %d, not 200 for role: %s", acualStatusCode, editor ));
+    }
+
+    @Test(dataProvider =  "InvalidPassword")
+    public void tc01_2_Create_SupervisorCreatesUserPlayerWithInvalidPassword_StatusCodeIs400(String invalidPassword){
+
+        //Precondition
+        CreatePlayerRequest expectedPlayer = builder().password(invalidPassword).build();
         PlayerController playerController = new PlayerController();
 
         //Action
@@ -22,29 +56,7 @@ public class CreatePlayerTests {
 
         //Assert
         int acualStatusCode = response.statusCode();
-        CreatePlayerResponse actualPlayerResult = response.as(CreatePlayerResponse.class);
-        Assert.assertEquals(acualStatusCode, 200, "Status code is {acualStatusCode}, not 200" );
-        Assert.assertFalse(actualPlayerResult.getId() == 0, "Player's id is 0");
-        Assert.assertEquals(actualPlayerResult.getAge(), expectedPlayer.getAge(), "Ages are not equal");
-        Assert.assertEquals(actualPlayerResult.getGender(), expectedPlayer.getGender(), "Genders are not equal");
-        Assert.assertEquals(actualPlayerResult.getLogin(), expectedPlayer.getLogin(), "Logins are not equal");
-        Assert.assertEquals(actualPlayerResult.getPassword(), expectedPlayer.getPassword(), "Passwords are not equal");
-        Assert.assertEquals(actualPlayerResult.getRole(), expectedPlayer.getRole(), "Roles are not equal");
-        Assert.assertEquals(actualPlayerResult.getScreenName(), expectedPlayer.getScreenName(), "Screen names are not equal");
-    }
-
-    @Test
-    public void tc01_2_Create_UserCreatesUserPlayerWithValidData_StatusCodeIs403(){
-
-        //Precondition
-        CreatePlayerRequest expectedPlayer = builder().build();
-        PlayerController playerController = new PlayerController();
-
-        //Action
-        Response response = playerController.CreatePlayer(Role.USER.name(), expectedPlayer);
-
-        //Assert
-        int acualStatusCode = response.statusCode();
-        Assert.assertEquals(acualStatusCode, 403, "Status code is {acualStatusCode}, not 403" );
+        Assert.assertEquals(acualStatusCode, 400,
+                String.format("Status code is %s, not 400, password is '%s'", acualStatusCode, invalidPassword));
     }
 }

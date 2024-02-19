@@ -7,8 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import models.responses.CreatePlayerResponse;
 
+import java.util.Objects;
 import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -28,4 +32,17 @@ public class CreatePlayerRequest {
     private String role = faker.number().numberBetween(1, 3) == 1 ? Role.ADMIN.name() : Role.USER.name();
     @Builder.Default
     private String screenName = UUID.randomUUID().toString();
+
+    public List<String> compareFields(CreatePlayerResponse other) {
+        List<String> diffFields = new ArrayList<>();
+
+        if (this.age != other.getAge()) diffFields.add("age");
+        if (!this.gender.equals(other.getGender())) diffFields.add("gender");
+        if (!this.login.equals(other.getLogin())) diffFields.add("login");
+        if (!this.password.equals(other.getPassword())) diffFields.add("password");
+        if (!this.role.equals(other.getRole())) diffFields.add("role");
+        if (!this.screenName.equals(other.getScreenName())) diffFields.add("screenName");
+
+        return diffFields;
+    }
 }
