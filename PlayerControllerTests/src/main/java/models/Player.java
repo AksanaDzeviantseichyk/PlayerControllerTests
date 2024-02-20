@@ -1,4 +1,4 @@
-package models.requests;
+package models;
 
 import com.github.javafaker.Faker;
 import enums.Gender;
@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import models.responses.CreatePlayerResponse;
+import models.responses.CreateGetPlayerResponse;
 import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreatePlayerRequest {
+public class Player {
     private static Faker faker = new Faker();
     @Builder.Default
     private int age = faker.number().numberBetween(17, 61);
@@ -31,7 +31,7 @@ public class CreatePlayerRequest {
     @Builder.Default
     private String screenName = UUID.randomUUID().toString();
 
-    public List<String> compareFields(CreatePlayerResponse other) {
+    public List<String> compareFields(CreateGetPlayerResponse other) {
         List<String> diffFields = new ArrayList<>();
 
         if (this.age != other.getAge()) diffFields.add("age");

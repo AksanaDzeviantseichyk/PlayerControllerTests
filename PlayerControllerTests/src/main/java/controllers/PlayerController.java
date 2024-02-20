@@ -1,9 +1,12 @@
 package controllers;
 
+import http.CommonResponse;
 import io.restassured.response.Response;
-import models.requests.CreatePlayerRequest;
-import models.requests.PlayerIdRequest;
+import models.Player;
+import models.requests.GetDeletePlayerRequest;
 import models.requests.UpdatePlayerRequest;
+import models.responses.CreateGetPlayerResponse;
+import models.responses.UpdatePlayerResponse;
 
 import static io.restassured.RestAssured.given;
 
@@ -11,10 +14,10 @@ public class PlayerController {
 
     private String baseUrl = "http://3.68.165.45/";
 
-    public Response CreatePlayer (String editor, CreatePlayerRequest newPlayer)
+    public CommonResponse<CreateGetPlayerResponse> CreatePlayer (String editor, Player newPlayer)
     {
         String endpoint = "/player/create/{editor}?age={age}&gender={gender}&login={login}&password={password}&role={role}&screenName={screenName}";
-        return given()
+        Response response =  given()
                     .baseUri(baseUrl)
                     .contentType("application/json")
                     .pathParam("editor", editor)
@@ -25,51 +28,47 @@ public class PlayerController {
                     .pathParam("role", newPlayer.getRole())
                     .pathParam("screenName", newPlayer.getScreenName())
                 .when()
-                    .get(endpoint)
-                .then()
-                    .extract()
-                    .response();
+                    .get(endpoint);
+
+        return new CommonResponse<>(response, CreateGetPlayerResponse.class);
     }
-    public Response DeletePlayer (String editor, PlayerIdRequest playerDeleteRequest)
+    public CommonResponse<Void> DeletePlayer (String editor, GetDeletePlayerRequest playerDeleteRequest)
     {
         String endpoint = "/player/delete/{editor}";
-        return given()
+        Response response = given()
                     .baseUri(baseUrl)
                     .contentType("application/json")
                     .pathParam("editor", editor)
                     .body(playerDeleteRequest)
                 .when()
-                    .delete(endpoint)
-                .then()
-                    .extract()
-                    .response();
+                    .delete(endpoint);
+
+        return new CommonResponse<>(response, Void.class);
     }
-    public Response GetPlayerInfoById (PlayerIdRequest getPlayerByIdRequest)
+    public CommonResponse<CreateGetPlayerResponse> GetPlayerInfoById (GetDeletePlayerRequest getPlayerByIdRequest)
     {
         String endpoint = "/player/get";
-        return given()
+        Response response = given()
                     .baseUri(baseUrl)
                     .contentType("application/json")
                     .body(getPlayerByIdRequest)
                 .when()
-                    .post(endpoint)
-                .then()
-                    .extract()
-                    .response();
+                    .post(endpoint);
+
+        return new CommonResponse<>(response, CreateGetPlayerResponse.class);
     }
-    public Response UpdatePlayer (String editor, int id, UpdatePlayerRequest updatePlayerFields)
+    public CommonResponse<UpdatePlayerResponse> UpdatePlayer (String editor, int id, UpdatePlayerRequest updatePlayerFields)
     {
         String endpoint = "/player/update/{editor}/{id}";
-        return given()
+        Response response = given()
                     .baseUri(baseUrl)
                     .contentType("application/json")
                     .pathParam("editor", editor)
                     .pathParam("id", id)
                     .body(updatePlayerFields)
                 .when()
-                    .patch(endpoint)
-                .then()
-                    .extract()
-                    .response();
+                    .patch(endpoint);
+
+        return new CommonResponse<>(response, UpdatePlayerResponse.class);
     }
 }

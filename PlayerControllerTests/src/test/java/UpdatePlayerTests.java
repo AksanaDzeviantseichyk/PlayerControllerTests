@@ -1,15 +1,15 @@
 import controllers.PlayerController;
 import enums.Gender;
 import enums.Role;
-import io.restassured.response.Response;
-import models.requests.CreatePlayerRequest;
+import http.CommonResponse;
+import models.Player;
 import models.requests.UpdatePlayerRequest;
-import models.responses.CreatePlayerResponse;
+import models.responses.CreateGetPlayerResponse;
 import models.responses.UpdatePlayerResponse;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
 
 public class UpdatePlayerTests {
 
@@ -32,29 +32,22 @@ public class UpdatePlayerTests {
             (int oldAge, int newAge){
 
         //Precondition
-        CreatePlayerRequest validPlayer = CreatePlayerRequest
-                .builder()
-                .age(oldAge)
-                .build();
+        Player validPlayer = Player.builder().age(oldAge).build();
         PlayerController playerController = new PlayerController();
-        Response cretePlayerResponse = playerController.CreatePlayer(Role.SUPERVISOR.name(), validPlayer);
-        cretePlayerResponse
-                .then()
-                .statusCode(200);
-        CreatePlayerResponse createdPlayer = cretePlayerResponse.as(CreatePlayerResponse.class);
+        CommonResponse<CreateGetPlayerResponse> createPlayerResponse = playerController
+                .CreatePlayer(Role.SUPERVISOR.name(), validPlayer);
+        throwIfNotTargetStatus(createPlayerResponse, 200);
+        CreateGetPlayerResponse createdPlayer = createPlayerResponse.getBody();
         int playerId = createdPlayer.getId();
-        UpdatePlayerRequest updatePlayerRequest = UpdatePlayerRequest
-                .builder()
-                .age(newAge)
-                .build();
 
         //Action
-        Response updatePlayerResponse = playerController.UpdatePlayer(Role.SUPERVISOR.name(), playerId, updatePlayerRequest);
+        UpdatePlayerRequest updatePlayerRequest = UpdatePlayerRequest.builder().age(newAge).build();
+        CommonResponse<UpdatePlayerResponse> updatePlayerResponse = playerController
+                .UpdatePlayer(Role.SUPERVISOR.name(), playerId, updatePlayerRequest);
 
         //Assert
-        int acualStatusCode = updatePlayerResponse.statusCode();
-        UpdatePlayerResponse actualPlayerInfo = updatePlayerResponse.as(UpdatePlayerResponse.class);
-        int actualAge = actualPlayerInfo.getAge();
+        int acualStatusCode = updatePlayerResponse.getStatusCode();
+        int actualAge = updatePlayerResponse.getBody().getAge();
         Assert.assertEquals(acualStatusCode, 200,
                 String.format("Status code is %s, not 200", acualStatusCode));
         Assert.assertEquals(actualAge, newAge,
@@ -66,27 +59,21 @@ public class UpdatePlayerTests {
             (String oldGender, String newGender){
 
         //Precondition
-        CreatePlayerRequest validPlayer = CreatePlayerRequest
-                .builder()
-                .gender(oldGender)
-                .build();
+        Player validPlayer = Player.builder().gender(oldGender).build();
         PlayerController playerController = new PlayerController();
-        Response cretePlayerResponse = playerController.CreatePlayer(Role.SUPERVISOR.name(), validPlayer);
-        cretePlayerResponse
-                .then()
-                .statusCode(200);
-        CreatePlayerResponse createdPlayer = cretePlayerResponse.as(CreatePlayerResponse.class);
+        CommonResponse<CreateGetPlayerResponse> createPlayerResponse = playerController
+                .CreatePlayer(Role.SUPERVISOR.name(), validPlayer);
+        throwIfNotTargetStatus(createPlayerResponse, 200);
+        CreateGetPlayerResponse createdPlayer = createPlayerResponse.getBody();
         int playerId = createdPlayer.getId();
-        UpdatePlayerRequest updatePlayerRequest = UpdatePlayerRequest
-                .builder()
-                .gender(newGender)
-                .build();
 
         //Action
-        Response updatePlayerResponse = playerController.UpdatePlayer(Role.SUPERVISOR.name(), playerId, updatePlayerRequest);
+        UpdatePlayerRequest updatePlayerRequest = UpdatePlayerRequest.builder().gender(newGender).build();
+        CommonResponse<UpdatePlayerResponse> updatePlayerResponse = playerController
+                .UpdatePlayer(Role.SUPERVISOR.name(), playerId, updatePlayerRequest);
 
         //Assert
-        int acualStatusCode = updatePlayerResponse.statusCode();
+        int acualStatusCode = updatePlayerResponse.getStatusCode();
         Assert.assertEquals(acualStatusCode, 400,
                 String.format("Status code is %s, not 400", acualStatusCode));
     }

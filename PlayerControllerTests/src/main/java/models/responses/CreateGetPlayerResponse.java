@@ -3,7 +3,7 @@ package models.responses;
 import lombok.Data;
 
 @Data
-public class CreatePlayerResponse {
+public class CreateGetPlayerResponse {
     private int age;
     private String gender;
     private int id;

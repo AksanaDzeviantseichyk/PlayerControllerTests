@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlayerIdRequest {
+public class GetDeletePlayerRequest {
     private int playerId;
 }
