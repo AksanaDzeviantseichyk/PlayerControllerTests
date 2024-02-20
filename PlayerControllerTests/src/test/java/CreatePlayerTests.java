@@ -1,6 +1,8 @@
 import controllers.PlayerController;
 import enums.Role;
 import http.CommonResponse;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import models.Player;
 import models.responses.CreateGetPlayerResponse;
 import org.testng.Assert;
@@ -8,6 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static models.Player.builder;
 
+@Feature("Verify GET operation on Create player endpoint")
 public class CreatePlayerTests {
 
     @DataProvider(name = "Editor")
@@ -30,6 +33,7 @@ public class CreatePlayerTests {
     }
 
     @Test(dataProvider = "Editor")
+    @Description("Test Description : Verify the status code of creating a valid player by Supervisor or Admin")
     public void tc01_1_Create_SupervisorOrAdminCreatesPlayerWithValidData_StatusCodeIs200(String editor){
 
         //Precondition
@@ -46,6 +50,7 @@ public class CreatePlayerTests {
     }
 
     @Test(dataProvider =  "InvalidPassword")
+    @Description("Test Description : Verify the status code of creating a player with an invaid password")
     public void tc01_2_Create_SupervisorCreatesPlayerWithInvalidPassword_StatusCodeIs400(String invalidPassword){
 
         //Precondition

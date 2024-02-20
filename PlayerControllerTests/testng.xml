@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Player Controller">
+    <test name="API Tests">
+        <classes>
+            <class name="CreatePlayerTests"/>
+            <class name="DeletePlayerTests"/>
+            <class name="GetPlayerTests"/>
+            <class name="UpdatePlayerTests"/>
+        </classes>
+    </test>
+</suite>

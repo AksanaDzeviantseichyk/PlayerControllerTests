@@ -2,6 +2,8 @@ import controllers.PlayerController;
 import enums.Gender;
 import enums.Role;
 import http.CommonResponse;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import models.Player;
 import models.requests.UpdatePlayerRequest;
 import models.responses.CreateGetPlayerResponse;
@@ -11,6 +13,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
 
+@Feature("Verify PATCH operation on Update player endpoint")
 public class UpdatePlayerTests {
 
     @DataProvider(name = "ageData")
@@ -28,6 +31,7 @@ public class UpdatePlayerTests {
     }
 
     @Test(dataProvider = "ageData")
+    @Description("Test Description : Verify the status code and response data of updating age for existing player with valid value")
     public void tc04_1_Update_SupervisorUpdatesAgeForExistingPlayerWithValidValue_StatusCodeIs200AndResponseBodyContainsCorrectData
             (int oldAge, int newAge){
 
@@ -55,6 +59,7 @@ public class UpdatePlayerTests {
     }
 
     @Test(dataProvider = "genderData")
+    @Description("Test Description : Verify the status code of updating gender for existing player with invalid value")
     public void tc04_1_Update_SupervisorUpdatesGenderForExistingPlayerWithInvalidValue_StatusCodeIs400
             (String oldGender, String newGender){
 

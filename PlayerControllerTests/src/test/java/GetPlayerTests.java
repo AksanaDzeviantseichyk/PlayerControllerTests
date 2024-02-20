@@ -1,6 +1,8 @@
 import controllers.PlayerController;
 import enums.Role;
 import http.CommonResponse;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import models.Player;
 import models.requests.GetDeletePlayerRequest;
 import models.responses.CreateGetPlayerResponse;
@@ -9,10 +11,12 @@ import org.testng.annotations.Test;
 import java.util.List;
 import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
 
+@Feature("Verify POST operation on Get player endpoint")
 public class GetPlayerTests {
 
     @Test
-    public void tc03_1_Get_GettingPlayerInfoForExistingUser_StatusCodeIs200AndResponseBodyContainsCorrectData(){
+    @Description("Test Description : Verify the status code and response data of getting player info for existing player")
+    public void tc03_1_Get_GettingPlayerInfoForExistingPlayer_StatusCodeIs200AndResponseBodyContainsCorrectData(){
 
         //Precondition
         Player validPlayer = Player.builder().build();
@@ -35,6 +39,7 @@ public class GetPlayerTests {
     }
 
     @Test
+    @Description("Test Description : Verify the status code of getting player info for not existing player")
     public void tc03_2_Get_GettingPlayerInfoForNotExistingPlayer_StatusCodeIs404(){
 
         //Precondition

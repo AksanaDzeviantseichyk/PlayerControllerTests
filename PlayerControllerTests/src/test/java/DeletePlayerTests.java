@@ -1,6 +1,8 @@
 import controllers.PlayerController;
 import enums.Role;
 import http.CommonResponse;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import models.Player;
 import models.requests.GetDeletePlayerRequest;
 import models.responses.CreateGetPlayerResponse;
@@ -8,10 +10,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
 
+@Feature("Verify DELETE operation on Delete player endpoint")
 public class DeletePlayerTests {
 
     @Test
-    public void tc02_1_Delete_SupervisorDeletesExistingUserPlayer_StatusCodeIs200(){
+    @Description("Test Description : Verify the status code of deleting of the existing player")
+    public void tc02_1_Delete_SupervisorDeletesExistingPlayer_StatusCodeIs200(){
 
         //Precondition
         Player validPlayer = Player.builder().build();
@@ -30,6 +34,7 @@ public class DeletePlayerTests {
     }
 
     @Test
+    @Description("Test Description : Verify the status code when player with user role deletes himself")
     public void tc02_2_Delete_UserDeletesHimself_StatusCodeIs403(){
 
         //Precondition
