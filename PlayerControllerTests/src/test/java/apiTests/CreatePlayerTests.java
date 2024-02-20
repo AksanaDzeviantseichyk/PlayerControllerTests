@@ -5,15 +5,17 @@ import enums.Role;
 import http.CommonResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
+import listeners.CustomTestListener;
 import models.Player;
 import models.responses.CreateGetPlayerResponse;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import static models.Player.builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@Listeners(CustomTestListener.class)
 @Feature("Verify GET operation on Create player endpoint")
 public class CreatePlayerTests {
     private static final Logger logger = LoggerFactory.getLogger(CreatePlayerTests.class);

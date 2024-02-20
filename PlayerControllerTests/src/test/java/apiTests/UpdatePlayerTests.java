@@ -6,6 +6,7 @@ import enums.Role;
 import http.CommonResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
+import listeners.CustomTestListener;
 import models.Player;
 import models.requests.UpdatePlayerRequest;
 import models.responses.CreateGetPlayerResponse;
@@ -14,9 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
-
+@Listeners(CustomTestListener.class)
 @Feature("Verify PATCH operation on Update player endpoint")
 public class UpdatePlayerTests {
     private static final Logger logger = LoggerFactory.getLogger(UpdatePlayerTests.class);

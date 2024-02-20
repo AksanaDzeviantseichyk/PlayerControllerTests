@@ -5,16 +5,18 @@ import enums.Role;
 import http.CommonResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
+import listeners.CustomTestListener;
 import models.Player;
 import models.requests.GetDeletePlayerRequest;
 import models.responses.CreateGetPlayerResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import java.util.List;
 import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
-
+@Listeners(CustomTestListener.class)
 @Feature("Verify POST operation on Get player endpoint")
 public class GetPlayerTests {
     private static final Logger logger = LoggerFactory.getLogger(GetPlayerTests.class);
