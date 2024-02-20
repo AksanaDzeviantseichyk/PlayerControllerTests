@@ -27,6 +27,8 @@ public class PlayerController {
                     .pathParam("password", newPlayer.getPassword())
                     .pathParam("role", newPlayer.getRole())
                     .pathParam("screenName", newPlayer.getScreenName())
+                    //.log()
+                    //.ifValidationFails()
                 .when()
                     .get(endpoint);
 
@@ -40,6 +42,8 @@ public class PlayerController {
                     .contentType("application/json")
                     .pathParam("editor", editor)
                     .body(playerDeleteRequest)
+                    //.log()
+                    //.ifValidationFails()
                 .when()
                     .delete(endpoint);
 
@@ -52,6 +56,8 @@ public class PlayerController {
                     .baseUri(baseUrl)
                     .contentType("application/json")
                     .body(getPlayerByIdRequest)
+                    //.log()
+                    //.ifValidationFails()
                 .when()
                     .post(endpoint);
 
@@ -66,6 +72,8 @@ public class PlayerController {
                     .pathParam("editor", editor)
                     .pathParam("id", id)
                     .body(updatePlayerFields)
+                //.log()
+                  //  .ifValidationFails()
                 .when()
                     .patch(endpoint);
 

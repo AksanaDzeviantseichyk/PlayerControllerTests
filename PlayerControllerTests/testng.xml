@@ -2,10 +2,10 @@
 <suite name="Player Controller">
     <test name="API Tests">
         <classes>
-            <class name="CreatePlayerTests"/>
-            <class name="DeletePlayerTests"/>
-            <class name="GetPlayerTests"/>
-            <class name="UpdatePlayerTests"/>
+            <class name="apiTests.CreatePlayerTests"/>
+            <class name="apiTests.DeletePlayerTests"/>
+            <class name="apiTests.GetPlayerTests"/>
+            <class name="apiTests.UpdatePlayerTests"/>
         </classes>
     </test>
 </suite>

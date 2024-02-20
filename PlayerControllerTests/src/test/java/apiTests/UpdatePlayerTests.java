@@ -1,3 +1,5 @@
+package apiTests;
+
 import controllers.PlayerController;
 import enums.Gender;
 import enums.Role;
@@ -8,6 +10,8 @@ import models.Player;
 import models.requests.UpdatePlayerRequest;
 import models.responses.CreateGetPlayerResponse;
 import models.responses.UpdatePlayerResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -15,6 +19,7 @@ import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
 
 @Feature("Verify PATCH operation on Update player endpoint")
 public class UpdatePlayerTests {
+    private static final Logger logger = LoggerFactory.getLogger(UpdatePlayerTests.class);
 
     @DataProvider(name = "ageData")
     public Object[][] ageData() {
@@ -36,6 +41,7 @@ public class UpdatePlayerTests {
             (int oldAge, int newAge){
 
         //Precondition
+        logger.info("Create a valid player");
         Player validPlayer = Player.builder().age(oldAge).build();
         PlayerController playerController = new PlayerController();
         CommonResponse<CreateGetPlayerResponse> createPlayerResponse = playerController
@@ -45,6 +51,7 @@ public class UpdatePlayerTests {
         int playerId = createdPlayer.getId();
 
         //Action
+        logger.info("Update the created player age with valid value by Supervisor");
         UpdatePlayerRequest updatePlayerRequest = UpdatePlayerRequest.builder().age(newAge).build();
         CommonResponse<UpdatePlayerResponse> updatePlayerResponse = playerController
                 .UpdatePlayer(Role.SUPERVISOR.name(), playerId, updatePlayerRequest);
@@ -52,8 +59,10 @@ public class UpdatePlayerTests {
         //Assert
         int acualStatusCode = updatePlayerResponse.getStatusCode();
         int actualAge = updatePlayerResponse.getBody().getAge();
+        logger.info("Verify status code");
         Assert.assertEquals(acualStatusCode, 200,
                 String.format("Status code is %s, not 200", acualStatusCode));
+        logger.info("Verify actual age");
         Assert.assertEquals(actualAge, newAge,
                 String.format("Ages are not equal, age is %d, but should be %d", actualAge, newAge));
     }
@@ -64,6 +73,7 @@ public class UpdatePlayerTests {
             (String oldGender, String newGender){
 
         //Precondition
+        logger.info("Create a valid player");
         Player validPlayer = Player.builder().gender(oldGender).build();
         PlayerController playerController = new PlayerController();
         CommonResponse<CreateGetPlayerResponse> createPlayerResponse = playerController
@@ -73,11 +83,13 @@ public class UpdatePlayerTests {
         int playerId = createdPlayer.getId();
 
         //Action
+        logger.info("Update the created player gender with invalid value by Supervisor");
         UpdatePlayerRequest updatePlayerRequest = UpdatePlayerRequest.builder().gender(newGender).build();
         CommonResponse<UpdatePlayerResponse> updatePlayerResponse = playerController
                 .UpdatePlayer(Role.SUPERVISOR.name(), playerId, updatePlayerRequest);
 
         //Assert
+        logger.info("Verify status code");
         int acualStatusCode = updatePlayerResponse.getStatusCode();
         Assert.assertEquals(acualStatusCode, 400,
                 String.format("Status code is %s, not 400", acualStatusCode));

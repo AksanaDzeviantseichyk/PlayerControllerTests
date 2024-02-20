@@ -2,9 +2,13 @@ package http;
 
 import io.restassured.response.Response;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Data
 public class CommonResponse<T> {
+    private static final Logger logger = LoggerFactory.getLogger(CommonResponse.class);
+
     private T body;
     private String errorMessage;
     private String content;

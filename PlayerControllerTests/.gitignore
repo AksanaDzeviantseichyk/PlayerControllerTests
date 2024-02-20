@@ -1,3 +1,18 @@
+##############################
+## Java
+##############################
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.log
+hs_err_pid*
+
+##############################
+## Maven
+##############################
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

@@ -1,3 +1,5 @@
+package apiTests;
+
 import controllers.PlayerController;
 import enums.Role;
 import http.CommonResponse;
@@ -6,18 +8,22 @@ import io.qameta.allure.Feature;
 import models.Player;
 import models.requests.GetDeletePlayerRequest;
 import models.responses.CreateGetPlayerResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
 
 @Feature("Verify DELETE operation on Delete player endpoint")
 public class DeletePlayerTests {
+    private static final Logger logger = LoggerFactory.getLogger(DeletePlayerTests.class);
 
     @Test
     @Description("Test Description : Verify the status code of deleting of the existing player")
     public void tc02_1_Delete_SupervisorDeletesExistingPlayer_StatusCodeIs200(){
 
         //Precondition
+        logger.info("Create a valid player");
         Player validPlayer = Player.builder().build();
         PlayerController playerController = new PlayerController();
         CommonResponse<CreateGetPlayerResponse> createPlayerResponse = playerController.CreatePlayer(Role.SUPERVISOR.name(), validPlayer);
@@ -25,10 +31,12 @@ public class DeletePlayerTests {
         CreateGetPlayerResponse createdPlayer = createPlayerResponse.getBody();
 
         //Action
+        logger.info("Delete an existing player");
         GetDeletePlayerRequest getDeletePlayerRequest = GetDeletePlayerRequest.builder().playerId(createdPlayer.getId()).build();
         CommonResponse<Void> deletePlayerResponse = playerController.DeletePlayer(Role.SUPERVISOR.name(), getDeletePlayerRequest);
 
         //Assert
+        logger.info("Verify status code");
         int acualStatusCode = deletePlayerResponse.getStatusCode();
         Assert.assertEquals(acualStatusCode, 200, String.format("Status code is %s, not 200", acualStatusCode));
     }
@@ -38,6 +46,7 @@ public class DeletePlayerTests {
     public void tc02_2_Delete_UserDeletesHimself_StatusCodeIs403(){
 
         //Precondition
+        logger.info("Create a valid player");
         Player validPlayer = Player.builder().build();
         PlayerController playerController = new PlayerController();
         CommonResponse<CreateGetPlayerResponse> createPlayerResponse = playerController.CreatePlayer(Role.SUPERVISOR.name(), validPlayer);
@@ -45,10 +54,12 @@ public class DeletePlayerTests {
         CreateGetPlayerResponse createdPlayer = createPlayerResponse.getBody();
 
         //Action
+        logger.info("Player with user role tries to delete himself");
         GetDeletePlayerRequest getDeletePlayerRequest = GetDeletePlayerRequest.builder().playerId(createdPlayer.getId()).build();
         CommonResponse<Void> deletePlayerResponse = playerController.DeletePlayer(Role.USER.name(), getDeletePlayerRequest);
 
         //Assert
+        logger.info("Verify status code");
         int acualStatusCode = deletePlayerResponse.getStatusCode();
         Assert.assertEquals(acualStatusCode, 403, String.format("Status code is %s, not 403", acualStatusCode));
     }
