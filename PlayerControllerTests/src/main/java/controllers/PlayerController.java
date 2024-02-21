@@ -7,16 +7,17 @@ import models.requests.GetDeletePlayerRequest;
 import models.requests.UpdatePlayerRequest;
 import models.responses.CreateGetPlayerResponse;
 import models.responses.UpdatePlayerResponse;
+import utils.AppConfig;
 
 import static io.restassured.RestAssured.given;
 
 public class PlayerController {
 
-    private String baseUrl = "http://3.68.165.45/";
+    private String baseUrl = AppConfig.getProperty("api.baseUrl");
 
     public CommonResponse<CreateGetPlayerResponse> CreatePlayer (String editor, Player newPlayer)
     {
-        String endpoint = "/player/create/{editor}?age={age}&gender={gender}&login={login}&password={password}&role={role}&screenName={screenName}";
+        String endpoint = AppConfig.getProperty("api.createPlayerEndpoint");
         Response response =  given()
                     .baseUri(baseUrl)
                     .contentType("application/json")
@@ -36,7 +37,7 @@ public class PlayerController {
     }
     public CommonResponse<Void> DeletePlayer (String editor, GetDeletePlayerRequest playerDeleteRequest)
     {
-        String endpoint = "/player/delete/{editor}";
+        String endpoint = AppConfig.getProperty("api.deletePlayerEndpoint");;
         Response response = given()
                     .baseUri(baseUrl)
                     .contentType("application/json")
@@ -51,7 +52,7 @@ public class PlayerController {
     }
     public CommonResponse<CreateGetPlayerResponse> GetPlayerInfoById (GetDeletePlayerRequest getPlayerByIdRequest)
     {
-        String endpoint = "/player/get";
+        String endpoint = AppConfig.getProperty("api.getPlayerEndpoint");;
         Response response = given()
                     .baseUri(baseUrl)
                     .contentType("application/json")
@@ -65,7 +66,7 @@ public class PlayerController {
     }
     public CommonResponse<UpdatePlayerResponse> UpdatePlayer (String editor, int id, UpdatePlayerRequest updatePlayerFields)
     {
-        String endpoint = "/player/update/{editor}/{id}";
+        String endpoint = AppConfig.getProperty("api.updatePlayerEndpoint");;
         Response response = given()
                     .baseUri(baseUrl)
                     .contentType("application/json")

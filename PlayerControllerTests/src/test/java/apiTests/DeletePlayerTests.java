@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 import static extensions.CommonResponseExtension.throwIfNotTargetStatus;
 @Listeners(CustomTestListener.class)
 @Feature("Verify DELETE operation on Delete player endpoint")
-public class DeletePlayerTests {
+public class DeletePlayerTests{
     private static final Logger logger = LoggerFactory.getLogger(DeletePlayerTests.class);
 
     @Test

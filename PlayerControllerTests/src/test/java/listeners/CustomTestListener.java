@@ -2,13 +2,18 @@ package listeners;
 
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
+import org.testng.annotations.BeforeSuite;
+import utils.AppConfig;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class CustomTestListener extends TestListenerAdapter {
-    private static final String LOG_FILE_PATH = "logs/application.log";
+    private static String LOG_FILE_PATH;
 
+    static {
+        LOG_FILE_PATH = AppConfig.getProperty("log.file.path");
+    }
     @Override
     public void onTestFailure(ITestResult tr) {
         String methodName = tr.getMethod().getMethodName();
