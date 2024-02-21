@@ -42,8 +42,9 @@ public class UpdatePlayerTests {
     public void tc04_1_Update_SupervisorUpdatesAgeForExistingPlayerWithValidValue_StatusCodeIs200AndResponseBodyContainsCorrectData
             (int oldAge, int newAge){
 
+        logger.info("tc04_1 Started");
         //Precondition
-        logger.info("Create a valid player");
+        logger.info("tc04_1 Create a valid player");
         Player validPlayer = Player.builder().age(oldAge).build();
         PlayerController playerController = new PlayerController();
         CommonResponse<CreateGetPlayerResponse> createPlayerResponse = playerController
@@ -53,7 +54,7 @@ public class UpdatePlayerTests {
         int playerId = createdPlayer.getId();
 
         //Action
-        logger.info("Update the created player age with valid value by Supervisor");
+        logger.info("tc04_1 Update the created player age with valid value by Supervisor");
         UpdatePlayerRequest updatePlayerRequest = UpdatePlayerRequest.builder().age(newAge).build();
         CommonResponse<UpdatePlayerResponse> updatePlayerResponse = playerController
                 .UpdatePlayer(Role.SUPERVISOR.name(), playerId, updatePlayerRequest);
@@ -61,12 +62,13 @@ public class UpdatePlayerTests {
         //Assert
         int acualStatusCode = updatePlayerResponse.getStatusCode();
         int actualAge = updatePlayerResponse.getBody().getAge();
-        logger.info("Verify status code");
+        logger.info("tc04_1 Verify status code");
         Assert.assertEquals(acualStatusCode, 200,
                 String.format("Status code is %s, not 200", acualStatusCode));
-        logger.info("Verify actual age");
+        logger.info("tc04_1 Verify actual age");
         Assert.assertEquals(actualAge, newAge,
                 String.format("Ages are not equal, age is %d, but should be %d", actualAge, newAge));
+        logger.info("tc04_1 Finished");
     }
 
     @Test(dataProvider = "genderData")
@@ -74,8 +76,9 @@ public class UpdatePlayerTests {
     public void tc04_1_Update_SupervisorUpdatesGenderForExistingPlayerWithInvalidValue_StatusCodeIs400
             (String oldGender, String newGender){
 
+        logger.info("tc04_2 Started");
+        logger.info("tc04_2 Create a valid player");
         //Precondition
-        logger.info("Create a valid player");
         Player validPlayer = Player.builder().gender(oldGender).build();
         PlayerController playerController = new PlayerController();
         CommonResponse<CreateGetPlayerResponse> createPlayerResponse = playerController
@@ -85,15 +88,16 @@ public class UpdatePlayerTests {
         int playerId = createdPlayer.getId();
 
         //Action
-        logger.info("Update the created player gender with invalid value by Supervisor");
+        logger.info("tc04_2 Update the created player gender with invalid value by Supervisor");
         UpdatePlayerRequest updatePlayerRequest = UpdatePlayerRequest.builder().gender(newGender).build();
         CommonResponse<UpdatePlayerResponse> updatePlayerResponse = playerController
                 .UpdatePlayer(Role.SUPERVISOR.name(), playerId, updatePlayerRequest);
 
         //Assert
-        logger.info("Verify status code");
+        logger.info("tc04_2 Verify status code");
         int acualStatusCode = updatePlayerResponse.getStatusCode();
         Assert.assertEquals(acualStatusCode, 400,
                 String.format("Status code is %s, not 400", acualStatusCode));
+        logger.info("tc04_2 Finished");
     }
 }
