@@ -10,10 +10,15 @@ Write one positive and one negative autotest for each controller
 Find possible bugs. Critical ones cover with autotests.
 
 #### Additional:
-- * Add Allure
-- ** Make test run in 3 treads
-- *** Add logging
-- **** Add framework configuration (app url, thread count, etc.)
+- *Add Allure
+- **Make test run in 3 treads
+- ***Add logging
+- ****Add framework configuration (app url, thread count, etc.)
+
+## Results
+During the execution of the task, autotests were implemented, presented in the file at the link below, and the file also describes possible problems discovered during testing.
+[Link here:](https://github.com/AksanaDzeviantseichyk/Test-Cases/blob/main/PlayerControllerTestCases/Tests_Cases_And_Possible_Problems.pdf)
+
 
 ## Description of PlayerController application
 1. This application is about creating users and operations with them;
