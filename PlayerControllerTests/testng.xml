@@ -1,5 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Player Controller">
+<suite name="Player Controller" parallel="classes">
+
+    <listeners>
+        <listener class-name="listeners.SetupThreadCountListener"/>
+    </listeners>
+
     <test name="API Tests">
         <classes>
             <class name="apiTests.CreatePlayerTests"/>
