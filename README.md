@@ -5,9 +5,9 @@
 Java 11, testNG
 
 #### Assignment:
-Write a framework for app testing
-Write one positive and one negative autotest for each controller
-Find possible bugs. Critical ones cover with autotests.
+- Write a framework for app testing
+- Write one positive and one negative autotest for each controller
+- Find possible bugs. Critical ones cover with autotests.
 
 #### Additional:
 - *Add Allure
